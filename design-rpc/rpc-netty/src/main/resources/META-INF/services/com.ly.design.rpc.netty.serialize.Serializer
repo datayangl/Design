@@ -1,0 +1,3 @@
+com.ly.design.rpc.netty.serialize.impl.StringSerializer
+com.ly.design.rpc.netty.serialize.impl.MetadataSerializer
+com.ly.design.rpc.netty.serialize.impl.RpcRequestSerializer

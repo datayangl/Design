@@ -7,6 +7,10 @@ import io.netty.channel.ChannelHandlerContext;
 public class RequestDecoder extends CommandDecoder{
     @Override
     protected Header decodeHeader(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) {
-        return null;
+        return new Header(
+                byteBuf.readInt(),
+                byteBuf.readInt(),
+                byteBuf.readInt()
+        );
     }
 }

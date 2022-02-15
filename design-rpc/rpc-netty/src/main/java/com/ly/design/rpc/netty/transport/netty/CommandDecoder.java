@@ -13,12 +13,13 @@ public abstract class CommandDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        if(byteBuf.isReadable(LENGTH_FIELD_LENGTH)) {
+        System.out.println("处理数据---");
+        if(!byteBuf.isReadable(LENGTH_FIELD_LENGTH)) {
             return;
         }
 
         byteBuf.markReaderIndex();
-        int length = byteBuf.readByte() - LENGTH_FIELD_LENGTH;
+        int length = byteBuf.readInt() - LENGTH_FIELD_LENGTH;
 
         if(byteBuf.readableBytes() < length) {
             byteBuf.resetReaderIndex();
@@ -33,4 +34,10 @@ public abstract class CommandDecoder extends ByteToMessageDecoder {
     }
 
     protected abstract Header decodeHeader(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) ;
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("channel链接建立");
+        super.channelActive(ctx);
+    }
 }

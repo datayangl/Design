@@ -29,7 +29,9 @@ import java.util.Map;
 public class MetadataSerializer implements Serializer<Metadata> {
     @Override
     public int size(Metadata entry) {
-        return 0;
+        return Short.BYTES +                   // Size of the map                  2 bytes
+                entry.entrySet().stream()
+                        .mapToInt(this::entrySize).sum();
     }
 
     @Override

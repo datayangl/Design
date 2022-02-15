@@ -18,6 +18,14 @@ public class InFlightRequests implements Closeable {
         scheduledFuture = scheduledExecutorService.scheduleAtFixedRate(this::removeTimeoutFutures, TIMEOUT_SEC, TIMEOUT_SEC, TimeUnit.SECONDS);
     }
 
+    public void put(ResponseFuture responseFuture) throws InterruptedException, TimeoutException {
+        if (semaphore.tryAcquire(TIMEOUT_SEC, TimeUnit.SECONDS)) {
+            futureMap.put(responseFuture.getRequestId(), responseFuture);
+        } else {
+            throw new TimeoutException();
+        }
+    }
+
     private void removeTimeoutFutures() {
         futureMap.entrySet().removeIf(entry -> {
             if (System.nanoTime() - entry.getValue().getTimestamp() > TIMEOUT_SEC * 1000000000L) {

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 服务名 服务提供者URI列表
+ * 元数据：服务名 -> 服务提供者URI列表
  */
 public class Metadata extends HashMap<String, List<URI>> {
     @Override
